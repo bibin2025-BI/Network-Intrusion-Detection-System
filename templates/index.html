@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>SentinelNIDS | Authentication</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="static/img/logo.png" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="static/css/mdb.min.css" />
+  <link href="static/style3.css" rel="stylesheet">
+  <link href="static/style2.css" rel="stylesheet">
+</head>
+
+<body class="body">
+
+  <div class="mx-auto">
+    <div style="width: 900px; height: 500px; transform: translate(40%, 25%)">
+      <div class="row">
+        <div class="col-lg-4" style="background-color: #091d389f; height: 500px;" align="center">
+          <br /><br /><br /><br /><br /><br />
+          <span style="font-weight: bold; color: white; font-size: 28px; letter-spacing: 2px;">Welcome</span>
+          <br />
+          <span style="color: white;" id="dhead">Don't have an account ? Create your account, it takes less than a
+            minute</span>
+          <br /><br />
+          <input type="button" class="btn" id="changereglog"
+            style="font-weight:bold; color: white; border: 2px solid white;" value="Register">
+        </div>
+        <div class="col-lg-6" style="background-color: #ffffffd5; height: 500px;">
+          <div class="login col-lg-10 mx-auto" id="login" style="display:block">
+            <br />
+            <span style="font-weight: bold; color: rgb(0, 0, 0); font-size: 20px; letter-spacing: 1.25px;">Log into your
+              account</span>
+            <br /><br /><br /><br />
+            <label>Username</label>
+            <input type="text" class="form-control tbox" placeholder="Email ID" id="uname">
+            <label style="margin-top: 10px;">Password</label>
+            <input type="password" class="form-control tbox" placeholder="Type your password" id="pswd">
+            <br />
+            <a href="javascript:void(0)" data-mdb-toggle="modal" data-mdb-target="#forgotpassword-modal" style="color: #17446cc2; font-size: 16px;">Forgot password?</a>
+            <br />
+            <br />
+            <button class="btn btn-block" id="loginbtn"
+              style="font-weight:bold; color: #17446cc2; border: 2px solid #17446cc2;">Login</button>
+
+          </div>
+          <div class="login col-lg-10 mx-auto" id="register" style="display:none">
+            <br />
+            <span style="font-weight: bold; color: rgb(0, 0, 0); font-size: 20px; letter-spacing: 1.25px;">Create new
+              account</span>
+            <br /><br /><br />
+            <input type="text" class="form-control tbox" placeholder="Fullname" id="fname">
+            <input type="text" class="form-control tbox" placeholder="Email ID" style="margin-top: 10px;" id="uname2">
+            <input type="password" class="form-control tbox" placeholder="Type your password" style="margin-top: 10px;"
+              id="pswd2">
+            <input type="password" class="form-control tbox" placeholder="Confirm password" style="margin-top: 10px;"
+              id="pswd3">
+            <br />
+            <button class="btn btn-block" id="registerbtn"
+              style="font-weight:bold; color: #17446cc2; border: 2px solid #17446cc2;">Register</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Forgot Password Modal -->
+  <div class="modal fade" id="forgotpassword-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md" style="margin-top: 120px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-weight: bold; color: #0c6a99">Password Resest</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group" style="margin-top:15px;">
+                        <label>Enter your email address</label>
+                        <input type="email" class="form-control" id="uname3" placeholder="Email Address">
+                    </div>
+                    <br />
+                    <div align="center">
+                        <button class="btn btn_1 btn-block" style="font-weight: bold"
+                            id="reset-password">Reset passsword</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- MDB -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+  <!-- Custom scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordPattern = /^\w{8,16}$/;
+    $(document).ready(() => {
+
+      $("#changereglog").click(function () {
+        if ($("#changereglog").val() == "Register") {
+          $("#changereglog").val("Login")
+          $("#login").slideUp(900)
+          $("#register").slideDown(900)
+          $("#dhead").slideUp("slow")
+          setTimeout(() => {
+            $("#dhead").html("Don't have an account ? Create your account, it takes less than a minute")
+          }, 500);
+          $("#dhead").slideDown("slow")
+        } else {
+          $("#changereglog").val("Register")
+          $("#register").slideUp(900)
+          $("#login").slideDown(900)
+          $("#dhead").slideUp("slow")
+          setTimeout(() => {
+            $("#dhead").html("Network Intrusion Detection System in Cyber Security")
+          }, 500);
+          $("#dhead").slideDown("slow")
+        }
+      })
+
+
+      
+      $("#loginbtn").click(function () {
+        let uname = $("#uname").val()
+        let pswd = $("#pswd").val()
+        console.log(emailPattern.test(uname) && passwordPattern.test(pswd))
+        if (emailPattern.test(uname) && passwordPattern.test(pswd)) {
+          $.ajax({
+            url: "/login",
+            method: "POST",
+            data: {
+              uname: uname,
+              pswd: pswd
+            },
+            success: function (response) {
+              if (response.success) {
+                $("#uname").val('');
+                $("#pswd").val('');
+                var expires = new Date();
+                expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000));
+                document.cookie = "uname=" + uname + ";expires=" + expires.toUTCString() + ";path=/";
+                document.cookie = "fname=" + response.fname + ";expires=" + expires.toUTCString() + ";path=/";
+                document.cookie = "pswd=" + response.pswd + ";expires=" + expires.toUTCString() + ";path=/";
+                location.href = response.redirect;
+              } else {
+                alert("Invalid user credentials!")
+                var expires = new Date();
+                expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000));
+                document.cookie = "uname=" + ";expires=" + expires.toUTCString() + ";path=/";
+                document.cookie = "fname=" + ";expires=" + expires.toUTCString() + ";path=/";
+                document.cookie = "pswd=" + ";expires=" + expires.toUTCString() + ";path=/";
+              }
+            }
+          })
+        } else {
+          alert("Please enter a valid user credential!")
+        }
+      })
+
+
+      $("#registerbtn").click(function () {
+        let uname2 = $("#uname2").val()
+        let pswd2 = $("#pswd2").val()
+        let pswd3 = $("#pswd3").val()
+        let fname = $("#fname").val()
+        console.log(emailPattern.test(uname2) && passwordPattern.test(pswd2))
+        if (emailPattern.test(uname2) && passwordPattern.test(pswd2) && (pswd2 == pswd3)) {
+          $.ajax({
+            url: "/register",
+            method: "POST",
+            data: {
+              uname: uname2,
+              pswd: pswd2,
+              fname: fname,
+            },
+            success: function (response) {
+              $("#uname2, #pswd2, #pswd3, #fname").val('');
+              alert(response.msg+'. Please login with your credentials');
+              $("#changereglog").trigger('click');
+            }
+          })
+        } else {
+          alert("Please enter a valid user credential!")
+        }
+      })
+    });
+
+    $(function(){
+      $('#reset-password').on('click', function(){
+        let email = $('#uname3').val();
+        $('#reset-password').attr('disabled', 'disabled');
+        if(emailPattern.test(email)) {
+          $.ajax({
+            url: "/reset-password",
+            method: "POST",
+            data: {
+              email: email
+            },
+            success: function (response) {
+              $('#reset-password').removeAttr('disabled');
+              alert(response.msg)
+              if (response.success) {
+                $('#forgotpassword-modal').modal('hide');
+                location.reload()
+              }
+            }
+          })
+        }
+      })
+    });
+
+  </script>
+
+</body>
+
+</html>

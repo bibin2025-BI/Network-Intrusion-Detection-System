@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>SentinelNIDS | Home</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="static/img/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="static/css/mdb.min.css" />
+    <link href="static/style3.css" rel="stylesheet">
+</head>
+
+<body>
+<title>IP Address Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .ip-box {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f4f4f4;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="ip-box" id="ip-address">Loading...</div>
+    
+    <script>
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip-address').textContent = data.ip;
+            })
+            .catch(error => {
+                document.getElementById('ip-address').textContent = 'Error fetching IP';
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
+
+<body>
+    <nav class="navbar navbar-light bg-light" style="height: 55px">
+        <div class="container">
+            <div style="float: left; margin-left: -50px;">
+                <a style="font-weight: bold;" id="head">Sentinel<span style="color: #163563">NIDS</span></a>
+            </div>
+            <div style="float: right;">
+		<button class="btn btn_1" data-mdb-toggle="modal" data-mdb-target="#check-intrusion-modal">Check Intrusion</button>
+                <button class="btn btn_1" data-mdb-toggle="modal" data-mdb-target="#file-analyze-modal">Upload PCAP File</button>
+                <button class="btn btn_1" data-mdb-toggle="modal" data-mdb-target="#feedback-modal">Feedbacks</button>
+                <button class="btn btn_1" data-mdb-toggle="modal" data-mdb-target="#settingsmodal">Settings</button>
+                <button class="btn btn_1" id="logoutbtn" onclick="location.href='/'">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <br />
+    <div class="container-lg">
+        <!-- <div class="col-lg-4 mx-auto" align="center">
+            <label style="color: white">Check URL for Malware or Suspicious Behavior</label>
+            <input type="text" id="url" class="form-control" placeholder="Please enter a URL" style="margin-top: 10px;">
+            <br />
+            <button class="btn btn_2" id="scanurl">Scan</button>
+        </div> -->
+        <br />
+        <div class="col-lg-11 mx-auto">
+            <center><span style="font-weight: bold; letter-spacing: 1.25px; font-size: 25px; color: black">ANALYSIS
+                    REPORT</span></center>
+            <br />
+            <div class="row">
+                <div class="col-lg-10 mx-auto s1" align="center">
+                    <br />
+                    <span id="resspan" style="font-weight: bold; font-size: 18px;"></span>
+                    <br />
+                    <div class="container-fluid">
+                        <div id="barChart" style="width: 100%; height: 500px;"></div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <!-- <div class="col-lg-6 s1">
+                    <br />
+                    <center><span style="font-weight: bold; font-size: 18px;">Other site information</span></center>
+                    <br />
+                    <div class="container-lg">
+                        <table border="0">
+                            <tr>
+                                <td style="font-weight: bold" align="center">Domain Name<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">Domain name
+                                        of the final URL after all redirections.</span>
+                                </td>
+                                <td style="font-weight: bold">: &nbsp;</td>
+                                <td id="dname" style="font-weight: bold;">NA</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight: bold" align="center">Domain Age<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">Estimated age
+                                        of the domain.</span>
+                                </td>
+                                <td style="font-weight: bold">:</td>
+                                <td id="dage" style="font-weight: bold;">NA</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight: bold" align="center">IP Address<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">The
+                                        corresponding IP address for the URL's web server.</span>
+                                </td>
+                                <td style="font-weight: bold">:</td>
+                                <td id="ipaddr" style="font-weight: bold;">NA</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight: bold" align="center">HTTP Status Code<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">Status code
+                                        of the HTTP request. 200 is most common.</span>
+                                </td>
+                                <td style="font-weight: bold">:</td>
+                                <td id="httpstatus" style="font-weight: bold;">NA</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight: bold" align="center">Page Size<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">Page size of
+                                        URL's content in bytes.</span>
+                                </td>
+                                <td style="font-weight: bold">:</td>
+                                <td id="psize" style="font-weight: bold;">NA</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight: bold" align="center">Web Server<br />
+                                    <span style="font-weight: normal; font-size: 14px; margin-top: -50px;">Web server of
+                                        URL's content.</span>
+                                </td>
+                                <td style="font-weight: bold">:</td>
+                                <td id="wserver" style="font-weight: bold;">NA</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" style="display: none" id="loads">
+            
+        <span class='loader' style='margin-top: 300px'></span>
+    </div>
+
+
+    <div class="modal fade" id="settingsmodal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm" style="margin-top: 120px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-weight: bold; color: #0c6a99">Settings</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group" style="margin-top:15px;">
+                            <label>Current Password</label>
+                            <input type="password" class="form-control" id="pswd4" placeholder="Type your password">
+                        </div>
+
+                        <div class="form-group" style="margin-top:15px;">
+                            <label for="npswd">New Password</label>
+                            <input type="password" class="form-control" id="pswd5" placeholder="Type your password">
+                        </div>
+
+                        <div class="form-group" style="margin-top:15px;">
+                            <label for="npswd2">Confirm Password</label>
+                            <input type="password" class="form-control" id="pswd6" placeholder="Type your password">
+                        </div>
+                        <br />
+                        <div align="center">
+                            <button class="btn btn_1 btn-block" style="font-weight: bold"
+                                id="changepassword">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedback-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="margin-top: 120px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-weight: bold; color: #0c6a99">Feedback</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- Add Feedback Section -->
+                        <div class="form-group" style="margin-top:15px;">
+                            <label for="feedback">Your Feedback</label>
+
+                            <textarea class="form-control" id="feedback" placeholder="Type your feedback here"></textarea>
+                        </div>
+                        <br />
+                        <div align="center">
+                            <button class="btn btn_1 btn-block" style="font-weight: bold" id="add-feedback" onclick="sendFeedback()">Submit Feedback</button>
+                        </div>
+                        <hr />
+                        <!-- Feedback List Section -->
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            {% for feedback in feedbacks %}
+                            <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                                <p style="font-weight: bold;">{{ feedback.full_name }} ({{ feedback.email }})</p>
+                                <p>{{ feedback.comment }}</p>
+                                <p style="font-size: 12px; color: #666;">{{ feedback.time_date }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- File Analyze Modal -->
+    <div class="modal fade" id="file-analyze-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="margin-top: 120px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-weight: bold; color: #0c6a99">PCAP File</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group" style="margin-top:15px;">
+                            <label for="file">Select File</label>
+                            <input type="file" class="form-control" id="file">
+                        </div>
+                        <br />
+                        <div align="center">
+                            <button class="btn btn_1 btn-block" style="font-weight: bold" id="scan-file" onclick="scanFile()">Scan File</button>
+                        </div>
+                        <hr />
+                        <div id="analyzed-results" style="display: none;">
+                            <div id="file-info"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="static/js/mdb.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+
+    $(document).ready(() => {
+        const uname = document.cookie.split('; ').find(row => row.startsWith('uname='));
+        if (!uname) {
+            window.location.href = '/';
+        }
+    });
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+
+    b = 25
+    p = 75
+    // Callback function to draw the chart
+    function drawChart() {
+        // Data
+        const data = google.visualization.arrayToDataTable([
+            ['Class', 'Percentage', { role: 'style' }],
+            ['Normal', b, 'green'],
+            ['Intrusion Detected', p, 'red']
+        ]);
+
+        // Options
+        const options = {
+            legend: { position: 'none' },
+            vAxis: {
+                title: 'Percentage',
+                minValue: 0,
+                maxValue: 100,
+            }
+        };
+
+        // Create the chart
+        const chart = new google.visualization.ColumnChart(document.getElementById('barChart'));
+        chart.draw(data, options);
+    }
+    
+    let user;
+    try {
+        user = $.cookie("uname")
+    } catch (error) {
+        //location.href = "http://127.0.0.1:5568"
+    }
+
+    try {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        
+    } catch (error) {
+        $("#loads").slideDown(300)
+        $("#loads").html("<span style='font-weight: bold; font-size: 35px; color: red; letter-spacing: 2px; position: fixed; top: 45%; left: 44%'>No Internet</span>")
+        
+    }
+        
+
+    $("#resspan").html(
+        "<b>PCAP Type: <font style='color: blue'>NA</font></b>" +
+        "<br/><b style='font-size: 15px'>Predicted Probability: NA</b><br/>"
+    )
+
+    $("#scanurl").click(function () {
+        
+        const urlPattern = /^(https?:\/\/)?[^./]+\.[^/]+(\/.*)?$/;
+        url = $("#url").val()
+        if (urlPattern.test(url)) {
+            $("#loads").slideDown("slow")
+            $.ajax({
+                url: "/analyze",
+                method: "POST",
+                data: {
+                    url: url
+                },
+                success: function (response) {
+                    $("#loads").slideUp("slow")
+                    if (response.status) {
+                        $("#resspan").html(
+                            "<b>PCAP Type: <font style='color: " + response.col + "'>" + response.cls + "</font></b>" +
+                            "<br/><b style='font-size: 15px'>Predicted Probability: " + response.prob_1 + "%</b><br/>"
+                        )
+
+                        $("#dname").html(response.dname)
+                        $("#dage").html(response.dage + " Days")
+                        $("#ipaddr").html(response.ipaddr)
+                        $("#httpstatus").html(response.httpstatus)
+                        $("#psize").html(response.psize)
+                        $("#wserver").html(response.wserver)
+
+                        b = response.prob[0]
+                        p = response.prob[3] + response.prob[2] + response.prob[1]
+                        google.charts.setOnLoadCallback(drawChart);
+                    } else {
+                        reset()
+                        $("#resspan").html(
+                            "<b>PCAP Type: <font style='color: blue'>Invalid PCAP</font></b>" +
+                            "<br/><b style='font-size: 15px'>Predicted Probability: NA</b><br/>"
+                        )
+                    }
+                }
+            })
+
+        } else {
+            alert("Please enter a valid pcap file")
+            reset()
+        }
+    })
+
+
+    function reset() {
+        $("#resspan").html(
+            "<b>PCAP Type: <font style='color: blue'>NA</font></b>" +
+            "<br/><b style='font-size: 15px'>Predicted Probability: NA</b><br/>"
+        )
+        b = 0
+        p = 0
+        google.charts.setOnLoadCallback(drawChart);
+        $("#dname").html("NA")
+        $("#dage").html("NA")
+        $("#ipaddr").html("NA")
+        $("#httpstatus").html("NA")
+        $("#psize").html("NA")
+        $("#wserver").html("NA")
+    }
+
+
+    $("#changepassword").click(function () {
+            pswd4 = $("#pswd4").val()
+            pswd5 = $("#pswd5").val()
+            pswd6 = $("#pswd6").val()
+            if ((pswd5 == pswd6) && passwordPattern.test(pswd5) && passwordPattern.test(pswd4)) {
+                $.ajax({
+                    url: "/changepassword",
+                    method: "POST",
+                    data: {
+                        user: user,
+                        cpswd: pswd4,
+                        npswd: pswd5,
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Password changed!")
+                            location.reload()
+                        } else {
+                            alert("Invalid current password!")
+                        }
+                    }
+                })
+            } else {
+                alert("Password does not meet the requirements: \n Must contains atleast 8 letters.")
+            }
+        });
+
+    function sendFeedback() {
+        let feedback = $("#feedback").val();
+        let email = document.cookie.split('; ').find(row => row.startsWith('uname=')).split('=')[1];
+
+        if (feedback.trim() !== "") {
+            $.ajax({
+                url: "/feedback",
+                method: "POST",
+                data: {
+                    email: email,
+                    comment: feedback
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Feedback submitted successfully!");
+                        location.reload();
+                    } else {
+                        alert("Error submitting feedback: " + response.msg);
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while submitting feedback.");
+                }
+            });
+        } else {
+            alert("Please enter your feedback before submitting.");
+        }
+    }
+var embdx;
+
+var extensions = {
+    ".jpg": "Image",
+    ".png": "Image",
+    ".gif": "Image",
+    ".webm": "Image",
+    ".svg": "Image",
+    ".docx": "Document",
+    ".pdf": "Document",
+    ".doc": "Document",
+    ".txt": "Document",
+    ".xlsx": "Spreadsheet",
+    ".csv": "Spreadsheet",
+    ".mp3": "Audio",
+    ".wav": "Audio",
+    ".mp4": "Video",
+    ".avi": "Video",
+    ".zip": "Ziped",
+    ".rar": "Ziped",
+    ".7z": "Ziped",
+    ".exe": "Executable",
+    ".dll": "Executable",
+};
+
+    function scanFile() {
+        let selectedFile = document.getElementById('file').files[0];
+        let formData = new FormData();
+        formData.append('file', selectedFile);
+
+        $.ajax({
+            url: "/analyze_file",
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                embdx = response;
+
+                console.log(response)
+                if (response.success) {
+                    $("#file-info").html(
+                        "<b>Result: </b>" + (response.result.malicious ? "<span style='color: darkred;'>Malicious</span>" : "<span style='color: green;'>Benign</span>") + "<br/>" +
+                        "<b>File Name: </b>" + response.result.file_info.file_name + "<br/>" +
+                        "<b>File Type: </b>" + response.result.file_info.file_type + " (" + extensions[response.result.file_info.file_type] +")" + "<br/>" +
+                        "<b>File Size: </b>" + response.result.file_info.size + " Bytes<br/>" +
+                        "<b>SHA256 Hash: </b>" + response.result.file_info.hash_sha256 + "<br/>" +
+                        "<b>Creation Date: </b>" + response.result.file_info.creation_date + "<br/>"
+                    );
+                    $('#analyzed-results').show();
+                } else {
+                    alert("Error analyzing file: " + response.msg);
+                }
+            },
+            error: function () {
+                alert("An error occurred while analyzing file.");
+            }
+        });
+    }
+        
+
+</script>
+
+</html>
